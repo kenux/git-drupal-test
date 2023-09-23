@@ -93,5 +93,8 @@
                 "      composer remove drupal/core-project-message"
             ]
         }
+    },
+    "require-dev": {
+        "vimeo/psalm": "^5.15"
     }
 }
