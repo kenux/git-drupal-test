@@ -24,7 +24,8 @@
     "Sortable": true,
     "once": true,
     "CKEditor5": true,
-    "tabbable": true
+    "tabbable": true,
+    "globalThis": false
   },
   "rules": {
     "prettier/prettier": "error",
