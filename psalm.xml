@@ -12,7 +12,6 @@
         <file name="autoload.php" />
         <file name="update.php" />
         <file name="index.php" />
-        <directory name="core" />
         <directory name="sites" />
         <ignoreFiles>
             <directory name="vendor" />
