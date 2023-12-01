@@ -1,0 +1,60 @@
+name: Export Dependabot Alerts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  export-results:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Export code scanning results to CSV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          import requests
+          import csv
+          import os
+          
+          owner = os.getenv('OWNER')
+          repo = os.getenv('REPO')
+          token = os.getenv('GITHUB_TOKEN')
+
+          def fetch_dependabot_alerts(repo, token):
+              url = f"https://api.github.com/repos/{repo}/dependabot/alerts"
+              headers = {'Authorization': f'token {token}'}
+              response = requests.get(url, headers=headers)
+              return response.json()
+
+          def write_to_csv(data, filename="dependabot_alerts.csv"):
+              with open(filename, mode='w', newline='', encoding='utf-8') as file:
+                  writer = csv.writer(file)
+                  writer.writerow(["Alert ID", "Package Name", "Vulnerable Version", "Severity"])
+                  for alert in data:
+                      writer.writerow([alert['number'], alert['security_advisory']['package']['name'], alert['security_advisory']['vulnerable_version_range'], alert['security_advisory']['severity']])
+
+          # Replace 'your_repo' with your GitHub repo in the format 'username/repo'
+          # Replace 'your_token' with your GitHub personal access token
+          alerts = fetch_dependabot_alerts(repo, token)
+          write_to_csv(alerts)
+          EOF
+      - name: Upload results to workflow artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dependabot_alerts
+          path: dependabot_alerts.csv
