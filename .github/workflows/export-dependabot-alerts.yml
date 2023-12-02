@@ -49,7 +49,7 @@ jobs:
               return response.json()
 
           def write_to_csv(all_alerts, filename="dependabot_alerts.csv"):
-              columns = ['alert_number', 'alert_state', 'alert_sec_package', 'alert_sec_package_severety', 'alert_sec_package_severety_ver']
+              columns = ['alert_number', 'alert_state', 'alert_advisory', 'alert_sec_package', 'alert_sec_package_severety', 'alert_sec_package_severety_ver']
               with open(filename, mode='w', newline='', encoding='utf-8') as file:
                   writer = csv.DictWriter(file, fieldnames=columns)
                   writer.writeheader()
@@ -58,9 +58,10 @@ jobs:
                       writer.writerow({
                       'alert_number': alert.get('number'),
                       'alert_state': alert.get('state'),
-                      'alert_sec_package': alert.get('security_advisory', {}).get('package').get('name'),
-                      'alert_sec_package_severety': alert.get('security_advisory', {}).get('severety'),
-                      'alert_sec_package_severety_ver': alert.get('security_advisory', {}).get('severety').get('vulnerable_version_range')
+                      'alert_advisory': alert.get('security_advisory', {}).get('cve_id'),
+                      'alert_sec_package': alert.get('security_vulnerability', {}).get('package').get('name'),
+                      'alert_sec_package_severety': alert.get('security_vulnerability', {}).get('severity'),
+                      'alert_sec_package_severety_ver': alert.get('security_vulnerability', {}).get('vulnerable_version_range')
                        })
           alerts = fetch_dependabot_alerts(repo, token)
           write_to_csv(alerts)
