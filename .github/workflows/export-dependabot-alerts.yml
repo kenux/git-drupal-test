@@ -42,12 +42,19 @@ jobs:
               response = requests.get(url, headers=headers)
               return response.json()
 
-          def write_to_csv(data, filename="dependabot_alerts.csv"):
+          def write_to_csv(all_alerts, filename="dependabot_alerts.csv"):
+              columns = ['alert_number', 'alert_state', 'alert_sec_package', 'alert_sec_package_severety', 'alert_sec_package_severety_ver']
               with open(filename, mode='w', newline='', encoding='utf-8') as file:
-                  writer = csv.writer(file)
-                  writer.writerow(["Alert ID", "Package Name", "Vulnerable Version", "Severity"])
-                  for alert in data:
-                      writer.writerow([alert['number'], alert['security_advisory']['package']['name'], alert['security_advisory']['vulnerable_version_range'], alert['security_advisory']['severity']])
+                  writer = csv.DictWriter(file, fieldnames=columns)
+                  writer.writeheader()
+                  for alert in all_alerts:
+                      writer.writerow({
+                      'alert_number': alert.get('number'),
+                      'alert_state': alert.get('state'),
+                      'alert_sec_package': alert.get('security_advisory', {}).get('package').get('name'),
+                      'alert_sec_package_severety': alert.get('security_advisory', {}).get('severety'),
+                      'alert_sec_package_severety_ver': alert.get('security_advisory', {}).get('severety').get('vulnerable_version_range')
+                       })
           alerts = fetch_dependabot_alerts(repo, token)
           write_to_csv(alerts)
           EOF
