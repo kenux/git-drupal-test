@@ -58,7 +58,8 @@ jobs:
                       # 'alert_sec_package_severety_ver': alert.get('security_advisory', {}).get('severety').get('vulnerable_version_range')
                       #  })
           alerts = fetch_dependabot_alerts(repo, token)
-          write_to_csv(alerts)
+          # write_to_csv(alerts)
+          print(alerts)
           EOF
       - name: Upload results to workflow artifacts
         uses: actions/upload-artifact@v2
