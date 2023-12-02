@@ -38,7 +38,7 @@ jobs:
           owner = os.getenv('OWNER')
           repo = os.getenv('REPO')
           # token = os.getenv('GITHUB_TOKEN')
-          token = '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'
+          token = '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'
 
           def fetch_dependabot_alerts(repo, token):
               url = f'https://api.github.com/repos/{owner}/{repo}/dependabot/alerts'
