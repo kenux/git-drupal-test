@@ -2,7 +2,7 @@ name: Export Dependabot Alerts
 
 on:
   workflow_dispatch:
-permissions: read-all
+permissions: write-all
 jobs:
   export-results:
     runs-on: ubuntu-latest
