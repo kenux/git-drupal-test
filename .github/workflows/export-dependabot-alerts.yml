@@ -27,6 +27,7 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
         run: |
+          python - <<EOF
           import requests
           import csv
           import os
@@ -47,9 +48,6 @@ jobs:
                   writer.writerow(["Alert ID", "Package Name", "Vulnerable Version", "Severity"])
                   for alert in data:
                       writer.writerow([alert['number'], alert['security_advisory']['package']['name'], alert['security_advisory']['vulnerable_version_range'], alert['security_advisory']['severity']])
-
-          # Replace 'your_repo' with your GitHub repo in the format 'username/repo'
-          # Replace 'your_token' with your GitHub personal access token
           alerts = fetch_dependabot_alerts(repo, token)
           write_to_csv(alerts)
           EOF
