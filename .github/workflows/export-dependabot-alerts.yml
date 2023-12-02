@@ -2,7 +2,10 @@ name: Export Dependabot Alerts
 
 on:
   workflow_dispatch:
-permissions: write-all
+
+permissions: 
+  security-events: read
+
 jobs:
   export-results:
     runs-on: ubuntu-latest
@@ -38,7 +41,9 @@ jobs:
 
           def fetch_dependabot_alerts(repo, token):
               url = f'https://api.github.com/repos/{owner}/{repo}/dependabot/alerts'
-              headers = {'Authorization': f'token {token}'}
+              headers = {
+                'Authorization': f'token {token}',
+                'Accept': 'application/vnd.github.v3+json'}
               response = requests.get(url, headers=headers)
               return response.json()
 
