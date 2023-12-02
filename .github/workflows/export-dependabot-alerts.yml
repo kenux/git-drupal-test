@@ -49,6 +49,7 @@ jobs:
                 'Accept': 'application/vnd.github.v3+json'}
               response = requests.get(url, headers=headers)
               response2 = requests.get(url2, headers=headers)
+              print(token)
               print(response.json())
               print(response2)
               return response.json()
