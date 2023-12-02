@@ -48,13 +48,14 @@ jobs:
                   writer = csv.DictWriter(file, fieldnames=columns)
                   writer.writeheader()
                   for alert in all_alerts:
-                      writer.writerow({
-                      'alert_number': alert.get('number'),
-                      'alert_state': alert.get('state'),
-                      'alert_sec_package': alert.get('security_advisory', {}).get('package').get('name'),
-                      'alert_sec_package_severety': alert.get('security_advisory', {}).get('severety'),
-                      'alert_sec_package_severety_ver': alert.get('security_advisory', {}).get('severety').get('vulnerable_version_range')
-                       })
+                      print(alert.get('number'))
+                      # writer.writerow({
+                      # 'alert_number': alert.get('number'),
+                      # 'alert_state': alert.get('state'),
+                      # 'alert_sec_package': alert.get('security_advisory', {}).get('package').get('name'),
+                      # 'alert_sec_package_severety': alert.get('security_advisory', {}).get('severety'),
+                      # 'alert_sec_package_severety_ver': alert.get('security_advisory', {}).get('severety').get('vulnerable_version_range')
+                      #  })
           alerts = fetch_dependabot_alerts(repo, token)
           write_to_csv(alerts)
           EOF
