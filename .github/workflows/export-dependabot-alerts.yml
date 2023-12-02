@@ -3,8 +3,8 @@ name: Export Dependabot Alerts
 on:
   workflow_dispatch:
 
-permissions: 
-  security-events: read
+# permissions: 
+#   security-events: read
 
 jobs:
   export-results:
@@ -38,7 +38,7 @@ jobs:
           owner = os.getenv('OWNER')
           repo = os.getenv('REPO')
           # token = os.getenv('GITHUB_TOKEN')
-          token = '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'
+          token = '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'
 
           def fetch_dependabot_alerts(repo, token):
               url = f'https://api.github.com/repos/{owner}/{repo}/dependabot/alerts'
