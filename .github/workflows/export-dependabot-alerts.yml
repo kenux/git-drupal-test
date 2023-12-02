@@ -4,8 +4,7 @@ on:
   push
   # workflow_dispatch:
 
-permissions: 
-  security-events: read
+permissions: read-all
 
 jobs:
   export-results:
