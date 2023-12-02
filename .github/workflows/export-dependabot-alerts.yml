@@ -27,6 +27,7 @@ jobs:
       - name: Export code scanning results to CSV
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DPSECRET: ${{ secrets.DEPENDABOTSECRET }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
         run: |
@@ -37,7 +38,7 @@ jobs:
           
           owner = os.getenv('OWNER')
           repo = os.getenv('REPO')
-          token = os.getenv('GITHUB_TOKEN')
+          token = os.getenv('DPSECRET')
 
           def fetch_dependabot_alerts(repo, token):
               url = f'https://api.github.com/repos/{owner}/{repo}/dependabot/alerts'
