@@ -22,6 +22,7 @@ jobs:
         run: |
           composer global require --dev pheromone/phpcs-security-audit
           ~/.composer/vendor/bin/phpcs --config-set installed_paths vendor/pheromone/phpcs-security-audit
+          ~/.composer/vendor/bin/phpcs -i
   
       - name: Run Security Audit
         run: ~/.composer/vendor/bin/phpcs --standard=Security --report=json --report-file=security_audit_report.json .
