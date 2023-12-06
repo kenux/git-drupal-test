@@ -74,7 +74,7 @@ jobs:
                               {
                                   "physicalLocation": {
                                       "artifactLocation": {
-                                          "uri": file_path
+                                          "uri": file_path[50:]
                                       },
                                       "region": {
                                           "startLine": message['line']
