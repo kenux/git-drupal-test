@@ -3,6 +3,8 @@ name: phpcs-security-audit
 on:
   workflow_dispatch:
 
+permissions: write-all
+
 jobs:
   phpcs-security-audit:
     runs-on: ubuntu-latest
