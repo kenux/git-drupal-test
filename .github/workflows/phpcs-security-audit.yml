@@ -87,7 +87,7 @@ jobs:
               return sarif
           
           # Read the PHP CodeSniffer JSON output
-          with open('phpcs_output.json', 'r') as file:
+          with open('security_audit_report.json', 'r') as file:
               phpcs_json = json.load(file)
           
           # Convert to SARIF
