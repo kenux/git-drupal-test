@@ -27,9 +27,86 @@ jobs:
       - name: Run Security Audit
         run: ~/.composer/vendor/bin/phpcs --standard=Security --report=json --report-file=security_audit_report.json .
         continue-on-error: true
+
+      - name: Convert PHPCS output to SARIF
+        run: |
+          python - << OEF
+          import json
+
+          def phpcs_to_sarif(phpcs_json):
+              # SARIF template
+              sarif = {
+                  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+                  "version": "2.1.0",
+                  "runs": [
+                      {
+                          "tool": {
+                              "driver": {
+                                  "name": "PHP CodeSniffer",
+                                  "informationUri": "https://github.com/squizlabs/PHP_CodeSniffer",
+                                  "rules": []
+                              }
+                          },
+                          "results": []
+                      }
+                  ]
+              }
+          
+              # Processing each file in the PHP CodeSniffer output
+              for file_path, file_data in phpcs_json['files'].items():
+                  for message in file_data['messages']:
+                      # Creating a rule for each issue type if it doesn't already exist
+                      rule_id = message['source']
+                      if not any(rule['id'] == rule_id for rule in sarif['runs'][0]['tool']['driver']['rules']):
+                          sarif['runs'][0]['tool']['driver']['rules'].append({
+                              "id": rule_id,
+                              "name": message['message'],
+                              "helpUri": ""  # You can add a link to the rule documentation if available
+                          })
+          
+                      # Adding the result for each issue
+                      sarif['runs'][0]['results'].append({
+                          "ruleId": rule_id,
+                          "message": {
+                              "text": message['message']
+                          },
+                          "locations": [
+                              {
+                                  "physicalLocation": {
+                                      "artifactLocation": {
+                                          "uri": file_path
+                                      },
+                                      "region": {
+                                          "startLine": message['line']
+                                      }
+                                  }
+                              }
+                          ]
+                      })
+          
+              return sarif
+          
+          # Read the PHP CodeSniffer JSON output
+          with open('phpcs_output.json', 'r') as file:
+              phpcs_json = json.load(file)
+          
+          # Convert to SARIF
+          sarif_output = phpcs_to_sarif(phpcs_json)
+          
+          # Write the SARIF output to a file
+          with open('phpcs_output.sarif', 'w') as file:
+              json.dump(sarif_output, file, indent=4)
+          
+          print("Conversion to SARIF format completed.")
+          EOF
+
   
       - name: Upload Security Audit Report
         uses: actions/upload-artifact@v2
         with:
           name: security-audit-report
           path: security_audit_report.json
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: phpcs_output.sarif
