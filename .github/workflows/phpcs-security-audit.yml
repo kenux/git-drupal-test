@@ -1,4 +1,4 @@
-name: phpcd-security-audit
+name: phpcs-security-audit
 
 on:
   workflow_dispatch:
