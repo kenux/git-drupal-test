@@ -30,9 +30,8 @@ jobs:
 
       - name: Convert PHPCS output to SARIF
         run: |
-          python - << OEF
+          python - <<EOF
           import json
-
           def phpcs_to_sarif(phpcs_json):
               # SARIF template
               sarif = {
@@ -51,7 +50,6 @@ jobs:
                       }
                   ]
               }
-          
               # Processing each file in the PHP CodeSniffer output
               for file_path, file_data in phpcs_json['files'].items():
                   for message in file_data['messages']:
@@ -63,7 +61,6 @@ jobs:
                               "name": message['message'],
                               "helpUri": ""  # You can add a link to the rule documentation if available
                           })
-          
                       # Adding the result for each issue
                       sarif['runs'][0]['results'].append({
                           "ruleId": rule_id,
@@ -83,24 +80,18 @@ jobs:
                               }
                           ]
                       })
-          
               return sarif
-          
           # Read the PHP CodeSniffer JSON output
           with open('security_audit_report.json', 'r') as file:
               phpcs_json = json.load(file)
-          
           # Convert to SARIF
           sarif_output = phpcs_to_sarif(phpcs_json)
-          
           # Write the SARIF output to a file
           with open('phpcs_output.sarif', 'w') as file:
               json.dump(sarif_output, file, indent=4)
-          
           print("Conversion to SARIF format completed.")
           EOF
 
-  
       - name: Upload Security Audit Report
         uses: actions/upload-artifact@v2
         with:
