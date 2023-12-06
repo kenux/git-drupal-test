@@ -21,7 +21,7 @@ jobs:
       - name: Install phpcs-security-audit
         run: |
           composer global require --dev pheromone/phpcs-security-audit
-          ~/.composer/vendor/bin/phpcs --config-set installed_paths vendor/pheromone/phpcs-security-audit
+          ~/.composer/vendor/bin/phpcs --config-set installed_paths ~/.composer/vendor/pheromone/phpcs-security-audit
           ~/.composer/vendor/bin/phpcs -i
   
       - name: Run Security Audit
