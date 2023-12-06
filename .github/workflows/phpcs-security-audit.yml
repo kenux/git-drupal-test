@@ -54,6 +54,7 @@ jobs:
               }
               # Processing each file in the PHP CodeSniffer output
               for file_path, file_data in phpcs_json['files'].items():
+                  full_uri = f"file:///{file_path}"
                   for message in file_data['messages']:
                       # Creating a rule for each issue type if it doesn't already exist
                       rule_id = message['source']
@@ -73,7 +74,7 @@ jobs:
                               {
                                   "physicalLocation": {
                                       "artifactLocation": {
-                                          "uri": file_path
+                                          "uri": full_uri
                                       },
                                       "region": {
                                           "startLine": message['line']
