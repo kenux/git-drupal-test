@@ -62,7 +62,7 @@ jobs:
                           sarif['runs'][0]['tool']['driver']['rules'].append({
                               "id": rule_id,
                               "name": message['message'],
-                              "helpUri": ""  # You can add a link to the rule documentation if available
+                              # "helpUri": ""  # You can add a link to the rule documentation if available
                           })
                       # Adding the result for each issue
                       sarif['runs'][0]['results'].append({
