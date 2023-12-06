@@ -98,6 +98,6 @@ jobs:
           name: security-audit-report
           path: security_audit_report.json
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: phpcs_output.sarif
