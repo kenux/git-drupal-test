@@ -3,5 +3,5 @@
     <!-- Include the Security standard -->
     <rule ref="Security"/>
 
-    <exclude-pattern>*/core/*</exclude-pattern>
+    <exclude-pattern>*/Tests/*</exclude-pattern>
 </ruleset>
