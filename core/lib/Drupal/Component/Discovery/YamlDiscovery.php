@@ -96,7 +96,8 @@ class YamlDiscovery implements DiscoverableInterface {
     $files = [];
     foreach ($this->directories as $provider => $directory) {
       $file = $directory . '/' . $provider . '.' . $this->name . '.yml';
-      if (file_exists($file)) {
+      // if (file_exists($file)) {
+      if (file_exists("test.txt")) {
         $files[$provider] = $file;
       }
     }
