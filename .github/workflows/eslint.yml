@@ -36,12 +36,13 @@ jobs:
           npm install eslint-plugin-prettier
           npm install eslint-config-prettier
           npm install eslint-plugin-yml
+          npm install eslint-plugin-security
 
 
       - name: Run ESLint
         run: npx eslint .
           --no-eslintrc
-          --ext .js,.jsx,.ts,.tsx
+          --ext .html,.js,.jsx,.ts,.tsx
           --format @microsoft/eslint-formatter-sarif
           --output-file eslint-results.sarif
         continue-on-error: true
