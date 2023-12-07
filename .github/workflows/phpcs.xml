@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Standard">
+    <!-- Include the Security standard -->
+    <rule ref="Security"/>
+
+    <exclude-pattern>*/core/*</exclude-pattern>
+</ruleset>
