@@ -40,7 +40,6 @@ jobs:
 
       - name: Run ESLint
         run: npx eslint .
-          --config core/.eslintrc.json
           --ignore-path core/.eslintignore
           --ext .js,.jsx,.ts,.tsx
           --format @microsoft/eslint-formatter-sarif
